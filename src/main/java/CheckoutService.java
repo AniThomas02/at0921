@@ -18,7 +18,6 @@ public class CheckoutService {
                     + toolCode + ". Please check the code and try again.");
         }
 
-
         LocalDate dueDate = checkoutDate.plusDays(rentalDayCount);
         int chargeDays = computeChargeDays(tool, checkoutDate, dueDate);
 
@@ -30,10 +29,10 @@ public class CheckoutService {
         ArrayList<String> errorMsgs = new ArrayList<>();
         //TODO: Check if any values are null?
         if (rentalDayCount < 1) {
-            errorMsgs.add("Rental days must be more than 0.");
+            errorMsgs.add("Rental days must be at least one day. Please enter an amount of one or greater.");
         }
         if (discountPercent < 0 || discountPercent > 100) {
-            errorMsgs.add("Discounts must be within the values of 0 and 100.");
+            errorMsgs.add("Discounts must be within the values of 0 and 100. Please try again with a valid amount.");
         }
         return errorMsgs;
     }
@@ -54,10 +53,8 @@ public class CheckoutService {
         return Database.getToolFromCode(toolCode);
     }
 
-
     private int computeChargeDays(Tool tool, LocalDate checkoutDate, LocalDate dueDate) {
         Pricing toolPricing = tool.getToolPricing();
-
 
         //Don't charge first day, so we'll skip it
         LocalDate startDate = checkoutDate.plusDays(1);
